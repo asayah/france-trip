@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0d1a12">
+  <title>Savoie &amp; Alps — Summer 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f7f2e8;
+      --parchment: #ede4d0;
+      --forest: #243d2e;
+      --forest-mid: #345c42;
+      --forest-light: #4a7d5a;
+      --glacier: #4a8fa6;
+      --glacier-light: #82bdd0;
+      --charcoal: #181e1b;
+      --warm-white: #fdf9f2;
+      --tips-bg: #f4e8cc;
+      --tips-border: #c8a050;
+      --divider: #ddd4bc;
+      --stone: #9a8a74;
+      --swiss-red: #c8102e;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overscroll-behavior: none;
+    }
+
+    /* ─── HEADER ─────────────────────────────────── */
+    .app-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: max(env(safe-area-inset-top), 14px) 24px 14px;
+      display: flex; flex-direction: column; align-items: center; gap: 9px;
+      background: linear-gradient(to bottom, rgba(10,20,14,0.72) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .trip-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px; font-weight: 400;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+    }
+    .day-dots {
+      display: flex; gap: 8px; align-items: center;
+      pointer-events: all;
+    }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.32);
+      transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .dot.active {
+      width: 22px; border-radius: 3px;
+      background: rgba(255,255,255,0.92);
+    }
+
+    /* ─── INFO BUTTON ────────────────────────────── */
+    .info-btn {
+      position: fixed;
+      bottom: calc(max(env(safe-area-inset-bottom), 16px) + 12px);
+      right: 18px; z-index: 100;
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(255,255,255,0.14);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.22);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 19px; color: white;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .info-btn:active { transform: scale(0.93); }
+
+    /* ─── VIEWPORT / SLIDER ──────────────────────── */
+    .viewport { position: fixed; inset: 0; overflow: hidden; }
+    .slider {
+      display: flex; height: 100%;
+      will-change: transform;
+      transition: transform 0.46s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .slider.no-transition { transition: none; }
+
+    /* ─── SLIDE ──────────────────────────────────── */
+    .slide {
+      width: 100vw; height: 100vh; flex-shrink: 0;
+      overflow-y: auto; overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+
+    /* ─── HERO ───────────────────────────────────── */
+    .hero {
+      position: relative; width: 100%; height: 100vh;
+      overflow: hidden;
+    }
+    .hero-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform 0.6s ease;
+    }
+    .hero-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(8,18,12,0.18) 0%,
+        rgba(8,18,12,0.04) 35%,
+        rgba(8,18,12,0.55) 70%,
+        rgba(8,18,12,0.91) 100%
+      );
+    }
+    .hero-text {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 28px 26px 52px;
+    }
+    .day-label {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--glacier-light);
+      margin-bottom: 7px;
+      opacity: 0; animation: none;
+    }
+    .location-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 50px; font-weight: 300; line-height: 1.0;
+      color: #fff; letter-spacing: -0.01em;
+      margin-bottom: 8px;
+      opacity: 0; animation: none;
+    }
+    .location-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 19px; font-weight: 300;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 10px;
+      opacity: 0; animation: none;
+    }
+    .tagline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px; font-weight: 300;
+      color: rgba(255,255,255,0.58); letter-spacing: 0.04em;
+      opacity: 0; animation: none;
+    }
+    .slide.active .day-label   { animation: fadeUp 0.55s ease 0.15s both; }
+    .slide.active .location-title    { animation: fadeUp 0.55s ease 0.28s both; }
+    .slide.active .location-subtitle { animation: fadeUp 0.55s ease 0.40s both; }
+    .slide.active .tagline           { animation: fadeUp 0.55s ease 0.50s both; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 18px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      animation: scrollBounce 2.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .scroll-hint span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.42);
+    }
+    .scroll-line {
+      width: 1px; height: 24px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent);
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      55%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ─── DAY CONTENT ────────────────────────────── */
+    .day-content {
+      background: var(--cream);
+      border-radius: 20px 20px 0 0;
+      margin-top: -20px;
+      position: relative; z-index: 2;
+      padding: 32px 22px;
+      padding-bottom: calc(max(env(safe-area-inset-bottom), 20px) + 80px);
+    }
+
+    /* ─── SECTION ────────────────────────────────── */
+    .section { margin-bottom: 30px; }
+    .section-header {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9.5px; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--forest); margin-bottom: 14px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    /* ─── ACTIVITY ITEMS ─────────────────────────── */
+    .activity-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.055);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .act-icon { font-size: 17px; flex-shrink: 0; margin-top: 2px; }
+    .act-body {}
+    .act-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px; font-weight: 600; color: var(--charcoal);
+      line-height: 1.25;
+    }
+    .act-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px; font-weight: 300; color: var(--stone);
+      margin-top: 2px; line-height: 1.5;
+    }
+
+    /* ─── FOOD ITEMS ─────────────────────────────── */
+    .food-item {
+      display: flex; gap: 13px; padding: 11px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.055);
+    }
+    .food-item:last-child { border-bottom: none; }
+    .food-icon { font-size: 18px; flex-shrink: 0; }
+    .food-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16.5px; font-weight: 600; color: var(--charcoal);
+    }
+    .food-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 300; color: var(--stone);
+      margin-top: 2px; line-height: 1.45;
+    }
+
+    /* ─── HOTEL CARD ─────────────────────────────── */
+    .hotel-card {
+      background: var(--warm-white);
+      border: 1px solid var(--divider); border-radius: 14px;
+      padding: 18px 18px 16px;
+    }
+    .hotel-stars { font-size: 11px; color: var(--tips-border); letter-spacing: 2px; margin-bottom: 5px; }
+    .hotel-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 21px; font-weight: 600; color: var(--charcoal);
+      margin-bottom: 3px;
+    }
+    .hotel-loc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.5px; font-weight: 300; color: var(--stone);
+      margin-bottom: 14px;
+    }
+    .book-btn {
+      display: block; width: 100%; padding: 13px;
+      background: var(--forest); color: var(--cream);
+      text-align: center; text-decoration: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      border-radius: 9px; border: none; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.18s;
+    }
+    .book-btn:active { background: var(--forest-mid); }
+    .book-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; font-weight: 300; color: var(--stone);
+      text-align: center; margin-top: 9px; line-height: 1.5;
+    }
+
+    /* ─── TIPS BOX ───────────────────────────────── */
+    .tips-box {
+      background: var(--tips-bg);
+      border: 1px solid var(--tips-border);
+      border-radius: 14px; padding: 18px;
+    }
+    .tips-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9.5px; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase;
+      color: #8a6820; margin-bottom: 14px;
+    }
+    .tip-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 10px; line-height: 1.5;
+    }
+    .tip-row:last-child { margin-bottom: 0; }
+    .tip-icon { font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+    .tip-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px; font-weight: 300; color: #4a3a1a;
+    }
+
+    /* ─── COUNTRY BADGE ──────────────────────────── */
+    .country-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; font-weight: 400; letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+    .badge-fr { background: rgba(0,53,128,0.08); color: #003580; border: 1px solid rgba(0,53,128,0.2); }
+    .badge-ch { background: rgba(200,16,46,0.08); color: #8a000f; border: 1px solid rgba(200,16,46,0.2); }
+
+    /* ─── EMERGENCY MODAL ────────────────────────── */
+    .modal-bg {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(8,18,12,0.72);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      display: flex; align-items: flex-end;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-bg.open { opacity: 1; pointer-events: all; }
+    .modal-sheet {
+      background: var(--cream); border-radius: 22px 22px 0 0;
+      width: 100%; padding: 22px 22px calc(max(env(safe-area-inset-bottom), 16px) + 20px);
+      transform: translateY(100%);
+      transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .modal-bg.open .modal-sheet { transform: translateY(0); }
+    .modal-handle {
+      width: 38px; height: 4px; background: var(--divider);
+      border-radius: 2px; margin: 0 auto 22px;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 27px; font-weight: 600; color: var(--charcoal);
+      margin-bottom: 18px;
+    }
+    .em-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 13px 0; border-bottom: 1px solid var(--divider);
+    }
+    .em-row:last-of-type { border-bottom: none; }
+    .em-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px; font-weight: 400; color: var(--charcoal);
+    }
+    .em-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 600; color: var(--forest);
+    }
+    .modal-close {
+      margin-top: 18px; display: block; width: 100%; padding: 14px;
+      background: var(--forest); color: var(--cream); border: none;
+      border-radius: 10px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .modal-close:active { background: var(--forest-mid); }
+
+    /* ─── SWIPE EDGE INDICATORS ──────────────────── */
+    .edge-hint {
+      position: fixed; top: 50%; z-index: 90;
+      transform: translateY(-50%);
+      width: 32px; height: 64px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+      color: rgba(255,255,255,0.55);
+      font-size: 20px;
+    }
+    .edge-hint.left  { left: 8px; }
+    .edge-hint.right { right: 8px; }
+    .edge-hint.show  { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<!-- Fixed Header -->
+<header class="app-header">
+  <span class="trip-eyebrow">Savoie &amp; Alps · July 2026</span>
+  <nav class="day-dots" id="dayDots"></nav>
+</header>
+
+<!-- Info / Emergency button -->
+<button class="info-btn" id="infoBtn" aria-label="Emergency info">ℹ</button>
+
+<!-- Edge swipe hints -->
+<div class="edge-hint left" id="edgeLeft">‹</div>
+<div class="edge-hint right" id="edgeRight">›</div>
+
+<!-- Main viewport -->
+<div class="viewport">
+  <div class="slider" id="slider"></div>
+</div>
+
+<!-- Emergency Modal -->
+<div class="modal-bg" id="modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h2 class="modal-title">Emergency Info</h2>
+    <div class="em-row"><span class="em-label">🚑 SAMU (Medical) — France</span><span class="em-num">15</span></div>
+    <div class="em-row"><span class="em-label">🚓 Police — France</span><span class="em-num">17</span></div>
+    <div class="em-row"><span class="em-label">🚒 Pompiers (Fire) — France</span><span class="em-num">18</span></div>
+    <div class="em-row"><span class="em-label">🌍 European Emergency</span><span class="em-num">112</span></div>
+    <div class="em-row"><span class="em-label">🏔️ Mountain Rescue (PGHM)</span><span class="em-num">04 50 53 16 89</span></div>
+    <div class="em-row"><span class="em-label">🇨🇭 Emergency — Switzerland</span><span class="em-num">112</span></div>
+    <div class="em-row"><span class="em-label">🇺🇸 US Embassy Paris</span><span class="em-num">+33 1 43 12 22 22</span></div>
+    <button class="modal-close" id="modalClose">Close</button>
+  </div>
+</div>
+
+<script>
+  const DAYS = [
+    {
+      label: "Day 1 · Sun, Jul 20",
+      title: "Arrival",
+      subtitle: "Geneva → Annecy",
+      tagline: "Your Alpine adventure begins ✈️",
+      country: "fr",
+      image: "https://images.unsplash.com/photo-1549877452-9c387954fbc2?w=900&q=85",
+      imageAlt: "Annecy old town and lake",
+      activities: [
+        { icon: "✈️", name: "Land at Geneva Airport (GVA)", desc: "Clear customs, pick up your rental car — see tips below" },
+        { icon: "🚗", name: "Drive to Annecy", desc: "~1h 20min on A40 motorway through lush French countryside" },
+        { icon: "🏨", name: "Check in & freshen up", desc: "Drop bags, get comfortable, take a breath — you made it" },
+        { icon: "🌅", name: "Evening walk, Vieille Ville", desc: "Wander Annecy's medieval canals as golden hour lights up the water" },
+        { icon: "🍷", name: "Dinner in the old town", desc: "No reservations needed tonight — explore the terraces along Canal du Thiou" },
+      ],
+      food: [
+        { icon: "🍽️", name: "Le Belvédère", desc: "Lakeside terrace, classic Savoyard menu — perfect landing dinner" },
+        { icon: "🧀", name: "Any boulangerie in Vieille Ville", desc: "Grab a crêpe or sandwich for a relaxed, easy first night" },
+      ],
+      hotel: {
+        stars: "★★★★★",
+        name: "Imperial Palace Annecy",
+        loc: "3 avenue d'Albigny, Annecy",
+        query: "Imperial Palace Annecy hotel booking"
+      },
+      tips: [
+        { icon: "🚗", text: "France drives on the RIGHT — same as the US. Speed limits are in km/h (autoroute: 130 km/h = 80 mph)." },
+        { icon: "💶", text: "Withdraw euros at the Geneva Airport ATM — better rate than currency exchange desks." },
+        { icon: "📶", text: "Buy a French SIM at Geneva Airport or use your carrier's international day pass. You'll want data." },
+        { icon: "🕐", text: "France is UTC+2 in July. New York is 6 hours behind, Phoenix is 9 hours behind." },
+      ]
+    },
+    {
+      label: "Day 2 · Mon, Jul 21",
+      title: "Annecy",
+      subtitle: "Venice of the Alps",
+      tagline: "Canals, castles & the clearest lake in Europe 💙",
+      country: "fr",
+      image: "https://images.unsplash.com/photo-1601132359864-c974e79890ac?w=900&q=85",
+      imageAlt: "Annecy lake panorama",
+      activities: [
+        { icon: "🏰", name: "Palais de l'Isle", desc: "The iconic 12th-century island prison — most photographed spot in Annecy" },
+        { icon: "🌸", name: "Jardins de l'Europe", desc: "Stroll the lakeside gardens, watch swans, sip a café crème" },
+        { icon: "🏊", name: "Plage d'Albigny", desc: "Swim in Lac d'Annecy — one of Europe's cleanest lakes, crystal-clear turquoise water" },
+        { icon: "⛵", name: "Boat cruise on the lake", desc: "1-hour cruise (Compagnie des Bateaux) with mountain panoramas — buy tickets at the pier" },
+        { icon: "🏯", name: "Château d'Annecy at sunset", desc: "Hike up through cobblestone streets for panoramic views. Drinks at the terrace café." },
+      ],
+      food: [
+        { icon: "⭐", name: "La Ciboulette", desc: "Michelin-starred, classic French — book ahead for a memorable lunch" },
+        { icon: "🧀", name: "Le Freti", desc: "Best fondue savoyarde in town — generous portions, rustic mountain vibes" },
+        { icon: "🍦", name: "Glacier des Alpes", desc: "Artisan ice cream on a cone, wandering the canals — non-negotiable" },
+      ],
+      hotel: {
+        stars: "★★★★★",
+        name: "Imperial Palace Annecy",
+        loc: "3 avenue d'Albigny, Annecy",
+        query: "Imperial Palace Annecy hotel booking"
+      },
+      tips: [
+        { icon: "📸", text: "Best photo spot: Pont des Amours (Bridge of Love) — look toward the lake at golden hour." },
+        { icon: "🏊", text: "The lake is clean enough to drink from. No jellyfish, very calm — great for kids and non-swimmers." },
+        { icon: "⛵", text: "Boat tours sell out on summer Mondays. Buy tickets early in the morning." },
+        { icon: "🧺", text: "Monday morning market on the canals — fresh local produce, charcuterie, flower stalls." },
+      ]
+    },
+    {
+      label: "Day 3 · Tue, Jul 22",
+      title: "Lauterbrunnen",
+      subtitle: "Into Switzerland",
+      tagline: "Land of 72 waterfalls 🇨🇭",
+      country: "ch",
+      image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=900&q=85",
+      imageAlt: "Lauterbrunnen valley Switzerland",
+      activities: [
+        { icon: "🚗", name: "Drive to Lauterbrunnen", desc: "~2.5h from Annecy — through Geneva, then into the Swiss Bernese Oberland" },
+        { icon: "🅿️", name: "Park in Lauterbrunnen village", desc: "The valley has a large paid car park (Schilthornbahn-Parking). Leave the car here." },
+        { icon: "🚞", name: "Cog railway up to Wengen", desc: "15-min scenic train ride from Lauterbrunnen to the car-free village of Wengen" },
+        { icon: "💦", name: "Staubbach Falls", desc: "One of Europe's tallest free-falling waterfalls (297m) — visible from the village, walkable path to the base" },
+        { icon: "🌄", name: "Wengen sunset views", desc: "Eiger, Mönch & Jungfrau turn pink at dusk — best seen from the village terrace" },
+      ],
+      food: [
+        { icon: "🏔️", name: "Hotel Regina Wengen", desc: "Classic Swiss mountain restaurant with a terrace facing the Jungfrau — fondue chinoise is excellent" },
+        { icon: "🍺", name: "Café des Alpes, Wengen", desc: "Local beer garden, hearty rösti, warm and unpretentious" },
+        { icon: "🥐", name: "Bäckerei in Lauterbrunnen", desc: "Swiss pastries and fresh bread before the train up — grab provisions" },
+      ],
+      hotel: {
+        stars: "★★★",
+        name: "Hotel Silberhorn, Wengen",
+        loc: "Car-free village of Wengen, Bernese Oberland",
+        query: "Hotel Silberhorn Wengen booking"
+      },
+      tips: [
+        { icon: "🇨🇭", text: "Switzerland uses Swiss Francs (CHF), not euros. Most places accept cards but have CHF cash handy." },
+        { icon: "🅿️", text: "Wengen is 100% car-free. You MUST park in Lauterbrunnen and take the train up. No exceptions." },
+        { icon: "🚞", text: "Train tickets: Lauterbrunnen ↔ Wengen are CHF ~10 each way. Buy at the station kiosk." },
+        { icon: "💦", text: "The valley gets a lot of waterfall spray — a light rain jacket is useful even on sunny days." },
+      ]
+    },
+    {
+      label: "Day 4 · Wed, Jul 23",
+      title: "Wengen",
+      subtitle: "Jungfrau Region",
+      tagline: "Top of Europe is calling 🏔️",
+      country: "ch",
+      image: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=900&q=85",
+      imageAlt: "Jungfrau Eiger Switzerland Alps",
+      activities: [
+        { icon: "🚂", name: "Jungfraujoch — Top of Europe", desc: "Train from Wengen via Kleine Scheidegg to 3,454m. Glacier plateau, ice palace, insane views. Book in advance!" },
+        { icon: "🥾", name: "Männlichen to Kleine Scheidegg hike", desc: "The most scenic easy hike in Switzerland — 2.5h, flat, panoramic views of the Big Three peaks" },
+        { icon: "🪂", name: "Watch BASE jumpers", desc: "Lauterbrunnen is the BASE jumping capital of the world — climbers launch off the cliffs regularly" },
+        { icon: "🧘", name: "Afternoon relax in Wengen", desc: "Sit on a terrace with a glass of Swiss white wine and just stare at the Eiger. You earned this." },
+      ],
+      food: [
+        { icon: "❄️", name: "Jungfraujoch restaurant", desc: "Eat lunch at 3,454m — touristy but genuinely surreal. Glacier views while eating Rivella and rösti." },
+        { icon: "🫕", name: "Mary's Café, Wengen", desc: "Homemade cake and alpine brunch — legendary among hikers" },
+        { icon: "🍷", name: "Terrace dinner at Hotel Belvedere", desc: "Classic Swiss menu, candlelit, Eiger reflection in the window — romantic and memorable" },
+      ],
+      hotel: {
+        stars: "★★★",
+        name: "Hotel Silberhorn, Wengen",
+        loc: "Car-free village of Wengen, Bernese Oberland",
+        query: "Hotel Silberhorn Wengen booking"
+      },
+      tips: [
+        { icon: "🎫", text: "Book Jungfraujoch online 3-7 days ahead — it sells out completely in July. Swiss Pass holders get a discount." },
+        { icon: "🧥", text: "It's 0°C at the Jungfraujoch summit. Pack a heavy jacket, gloves, and sunglasses (snow glare)." },
+        { icon: "🌤️", text: "Morning = best visibility. Clouds roll in by 2pm. Take the early train to maximize clear-sky time." },
+        { icon: "💊", text: "Altitude note: 3,454m is higher than any point in the continental US. Take it slow, drink water." },
+      ]
+    },
+    {
+      label: "Day 5 · Thu, Jul 24",
+      title: "Annecy",
+      subtitle: "Back to France",
+      tagline: "A gentle return to the lake 🏡",
+      country: "fr",
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=900&q=85",
+      imageAlt: "Annecy canal reflection",
+      activities: [
+        { icon: "🚗", name: "Drive back to Annecy", desc: "~2.5h from Wengen/Lauterbrunnen. Scenic route via Interlaken and Gstaad is 30min longer but stunning." },
+        { icon: "🛶", name: "Paddleboard or kayak on the lake", desc: "Rent gear at Plage de l'Impérial — flat water, mountain reflections, totally Instagrammable" },
+        { icon: "🧗", name: "Via ferrata at Gorges du Fier", desc: "Dramatic canyon walk 20min from Annecy — well-marked, beginner-friendly, impressive geology" },
+        { icon: "🌿", name: "Bike the lake circuit", desc: "30km lakeside cycling path — flat, scenic, no traffic. Rent bikes near the old town." },
+        { icon: "🌙", name: "Evening in Vieille Ville", desc: "A slower night — wine on the canal, live music in the squares in summer" },
+      ],
+      food: [
+        { icon: "🍝", name: "Auberge du Lyonnais", desc: "Refined French classics in a 17th-century dining room — best duck confit in Annecy" },
+        { icon: "🥗", name: "Les Terrasses, lakeside", desc: "Salads, tartines, cold rosé with a view — perfect post-travel recovery lunch" },
+        { icon: "🍦", name: "Same ice cream spot as Day 2", desc: "Because you deserve it twice." },
+      ],
+      hotel: {
+        stars: "★★★★★",
+        name: "Imperial Palace Annecy",
+        loc: "3 avenue d'Albigny, Annecy",
+        query: "Imperial Palace Annecy hotel booking"
+      },
+      tips: [
+        { icon: "📷", text: "The gorge at Gorges du Fier costs ~€7/person and takes about 45 minutes. Great for kids." },
+        { icon: "🚲", text: "Bikes rent for ~€15-20/day. The full lake circuit is 30km and mostly flat — doable in 2-3 hours." },
+        { icon: "🌡️", text: "July in Annecy averages 26°C (79°F). Afternoon thunderstorms are common — check the weather." },
+        { icon: "💤", text: "You just did Switzerland — rest is allowed. This is a recovery day. Don't over-plan." },
+      ]
+    },
+    {
+      label: "Day 6 · Fri, Jul 25",
+      title: "Lac du Bourget",
+      subtitle: "Aix-les-Bains",
+      tagline: "France's largest natural lake 🌊",
+      country: "fr",
+      image: "https://images.unsplash.com/photo-1504711331083-9c895941bf81?w=900&q=85",
+      imageAlt: "French Alpine lake tranquil",
+      activities: [
+        { icon: "🛁", name: "Thermes Chevalley spa", desc: "Roman thermal baths in Aix-les-Bains — book a 2-hour circuit. Pure mountain relaxation." },
+        { icon: "⛵", name: "Boat to Abbaye de Hautecombe", desc: "45-min boat across Lac du Bourget to the Royal Abbey — burial place of Savoyard royalty. Majestic." },
+        { icon: "🏖️", name: "Grand Port beach", desc: "Afternoon swim at Aix-les-Bains main beach — calm lake water, paddleboards and kayaks for rent" },
+        { icon: "🌄", name: "Promenade du Lac at sunset", desc: "Walk the lakeside promenade as the Grand Colombier mountain turns gold" },
+        { icon: "🧀", name: "Farewell Savoyard dinner", desc: "Fondue savoyarde with local Mondeuse wine — make it special tonight" },
+      ],
+      food: [
+        { icon: "⭐", name: "Le Davat", desc: "Best restaurant in Aix — terrace over the lake, local fish, sublime foie gras. Book ahead." },
+        { icon: "🫕", name: "La Maison de la Fondue", desc: "Cozy fondue specialist, very Savoyard, very warm — perfect for a group" },
+        { icon: "🌮", name: "La Buvette du Grand Port", desc: "Casual lakeside snack bar — grilled fish, salads, cold rosé in the afternoon sun" },
+      ],
+      hotel: {
+        stars: "★★★★",
+        name: "Hôtel Ariana",
+        loc: "Avenue de Marlioz, Aix-les-Bains",
+        query: "Hotel Ariana Aix les Bains booking"
+      },
+      tips: [
+        { icon: "🛁", text: "Book the thermal spa online — July fills up fast. Morning slots (9-11am) are quietest." },
+        { icon: "⛵", text: "Boats to Hautecombe run hourly in summer. The abbey is free — 30-min guided tour available on site." },
+        { icon: "🧀", text: "Last big shopping day! Beaufort, reblochon, tomme de Savoie at the morning market. Buy gifts here." },
+        { icon: "🎒", text: "Pack your bags tonight. Tomorrow is Mont Blanc day — early start recommended." },
+      ]
+    },
+    {
+      label: "Day 7 · Sat, Jul 26",
+      title: "Mont Blanc",
+      subtitle: "Chamonix",
+      tagline: "Roof of the Alps ⛰️ Highest peak in Western Europe",
+      country: "fr",
+      image: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=900&q=85",
+      imageAlt: "Chamonix Mont Blanc glacier",
+      activities: [
+        { icon: "🚡", name: "Aiguille du Midi cable car", desc: "Soar to 3,842m — panoramic views into Italy, Switzerland & France. Book online, leaves at 8am." },
+        { icon: "🧊", name: "Mer de Glace glacier", desc: "Rack railway to France's largest glacier (7km long). Walk into the ice cave — otherworldly." },
+        { icon: "🥾", name: "Hike Plan de l'Aiguille", desc: "Exit the cable car midway — moderate 2h loop through alpine meadows, marmots everywhere" },
+        { icon: "🛍️", name: "Chamonix town", desc: "Legendary outdoor gear shops (The North Face, Arc'teryx, Patagonia, local brands). Great macarons." },
+        { icon: "🌙", name: "Dinner in Chamonix", desc: "A full day in the mountains deserves a great dinner. See recommendations below." },
+      ],
+      food: [
+        { icon: "🍽️", name: "Atmosphère", desc: "Upscale but cozy — wood beams, great wine list, view of the Arve river valley" },
+        { icon: "🥩", name: "La Calèche", desc: "The fondue & raclette institution in Chamonix. Generous, rustic, always packed — worth it." },
+        { icon: "☕", name: "Jekyll Café", desc: "Morning coffee before the cable car — best espresso in Chamonix, climbers' favorite" },
+      ],
+      hotel: {
+        stars: "★★★★",
+        name: "Le Morgane Chamonix",
+        loc: "145 avenue de l'Aiguille du Midi, Chamonix",
+        query: "Le Morgane Chamonix hotel booking"
+      },
+      tips: [
+        { icon: "🎫", text: "Book Aiguille du Midi cable car online 2-3 days ahead. It sells out every summer morning." },
+        { icon: "🧥", text: "Bring a heavy jacket to the summit — it's 0°C at the top in July. Gloves too." },
+        { icon: "🌦️", text: "Best views are before noon. Clouds typically build after 2pm — go early, stay late in town." },
+        { icon: "🦫", text: "Marmots on the Aiguille hike are extremely friendly and totally unfazed by humans. Very cute." },
+      ]
+    },
+    {
+      label: "Day 8 · Sun, Jul 27",
+      title: "Geneva",
+      subtitle: "Annecy → GVA",
+      tagline: "Return the car, soak it all in one last time 🕊️",
+      country: "fr",
+      image: "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?w=900&q=85",
+      imageAlt: "Geneva lake Jet d'Eau Switzerland",
+      activities: [
+        { icon: "🌅", name: "One last morning in Annecy", desc: "Early walk on the empty canals before the tourists arrive — the town is magical at 7am" },
+        { icon: "🥐", name: "Goodbye croissant", desc: "There's no better croissant than a French one, eaten standing up on a cobblestone street" },
+        { icon: "🚗", name: "Drive to Geneva", desc: "~1h 20min on A41. Return rental car at GVA Airport 2+ hours before your flight." },
+        { icon: "⛲", name: "Geneva if you have time", desc: "Jet d'Eau (the famous water fountain), Old Town, Lake Leman promenade — worth 2-3 hours" },
+        { icon: "🍫", name: "Swiss chocolate at the airport", desc: "Läderach, Favarger, Lindt — the GVA duty-free has the best selection. Last gift opportunity." },
+      ],
+      food: [
+        { icon: "🥐", name: "Hotel breakfast", desc: "Don't skip — fuel up before the drive. Grab extra pastries to go." },
+        { icon: "☕", name: "Last café crème", desc: "Ask: 'un café crème s'il vous plaît' — the French café au lait. Drink it slowly." },
+      ],
+      hotel: {
+        stars: "",
+        name: "Flight Day",
+        loc: "Heading to Geneva Airport (GVA)",
+        query: ""
+      },
+      tips: [
+        { icon: "⏰", text: "Geneva Airport is busy on Sundays. Arrive 2.5 hours before international departure." },
+        { icon: "🧀", text: "Hard aged cheeses (beaufort, comté) are allowed in checked bags to the US. Soft cheeses may be questioned." },
+        { icon: "🍷", text: "Wine: max 5L per person in checked luggage. Ask at duty-free for bubble-wrap wine bags." },
+        { icon: "💚", text: "À bientôt, Savoie — you'll be back. They always come back." },
+      ]
+    },
+  ];
+
+  const slider = document.getElementById('slider');
+  const dotsContainer = document.getElementById('dayDots');
+  let current = 0;
+
+  // ─── Build slides ───────────────────────────────────────────────
+  DAYS.forEach((day, i) => {
+    const slide = document.createElement('article');
+    slide.className = 'slide' + (i === 0 ? ' active' : '');
+    slide.setAttribute('data-index', i);
+
+    const countryBadge = day.country === 'ch'
+      ? `<div class="country-badge badge-ch">🇨🇭 Switzerland</div>`
+      : `<div class="country-badge badge-fr">🇫🇷 France</div>`;
+
+    const hotelHTML = day.hotel.query
+      ? `<div class="hotel-card">
+           <div class="hotel-stars">${day.hotel.stars}</div>
+           <div class="hotel-name">${day.hotel.name}</div>
+           <div class="hotel-loc">📍 ${day.hotel.loc}</div>
+           <a class="book-btn"
+              href="https://www.google.com/search?q=${encodeURIComponent(day.hotel.query)}"
+              target="_blank" rel="noopener noreferrer">Search &amp; Book Hotel</a>
+           <p class="book-note">Opens Google — compare Booking.com, Hotels.com, direct site</p>
+         </div>`
+      : `<div class="hotel-card">
+           <div class="hotel-name">${day.hotel.name}</div>
+           <div class="hotel-loc">📍 ${day.hotel.loc}</div>
+         </div>`;
+
+    slide.innerHTML = `
+      <div class="hero">
+        <img class="hero-img"
+             src="${day.image}"
+             alt="${day.imageAlt}"
+             loading="${i <= 1 ? 'eager' : 'lazy'}" />
+        <div class="hero-gradient"></div>
+        <div class="hero-text">
+          <span class="day-label">${day.label}</span>
+          <h1 class="location-title">${day.title}</h1>
+          <p class="location-subtitle">${day.subtitle}</p>
+          <p class="tagline">${day.tagline}</p>
+        </div>
+        <div class="scroll-hint">
+          <div class="scroll-line"></div>
+          <span>details</span>
+        </div>
+      </div>
+
+      <div class="day-content">
+        ${countryBadge}
+
+        <div class="section">
+          <div class="section-header">Today's Plan</div>
+          ${day.activities.map(a => `
+            <div class="activity-item">
+              <span class="act-icon">${a.icon}</span>
+              <div class="act-body">
+                <div class="act-name">${a.name}</div>
+                <div class="act-desc">${a.desc}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="section">
+          <div class="section-header">Where to Eat</div>
+          ${day.food.map(f => `
+            <div class="food-item">
+              <span class="food-icon">${f.icon}</span>
+              <div>
+                <div class="food-name">${f.name}</div>
+                <div class="food-desc">${f.desc}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="section">
+          <div class="section-header">Where to Sleep</div>
+          ${hotelHTML}
+        </div>
+
+        <div class="section">
+          <div class="tips-box">
+            <div class="tips-label">💡 Tips &amp; Reminders</div>
+            ${day.tips.map(t => `
+              <div class="tip-row">
+                <span class="tip-icon">${t.icon}</span>
+                <span class="tip-text">${t.text}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>`;
+
+    slider.appendChild(slide);
+  });
+
+  // Set slider width
+  slider.style.width = `${DAYS.length * 100}vw`;
+
+  // ─── Build dots ─────────────────────────────────────────────────
+  DAYS.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function updateDots() {
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function goTo(index, animate = true) {
+    const slides = document.querySelectorAll('.slide');
+    slides[current].classList.remove('active');
+
+    current = Math.max(0, Math.min(DAYS.length - 1, index));
+
+    if (!animate) slider.classList.add('no-transition');
+    slider.style.transform = `translateX(calc(${-current} * 100vw))`;
+    if (!animate) requestAnimationFrame(() => requestAnimationFrame(() => slider.classList.remove('no-transition')));
+
+    slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
+    updateDots();
+  }
+
+  // ─── Touch / swipe ──────────────────────────────────────────────
+  let tx0 = 0, ty0 = 0, dir = null;
+  const edgeL = document.getElementById('edgeLeft');
+  const edgeR = document.getElementById('edgeRight');
+
+  document.addEventListener('touchstart', e => {
+    tx0 = e.touches[0].clientX;
+    ty0 = e.touches[0].clientY;
+    dir = null;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    const dx = e.touches[0].clientX - tx0;
+    const dy = e.touches[0].clientY - ty0;
+
+    if (!dir) {
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) dir = 'h';
+      else if (Math.abs(dy) > 10) dir = 'v';
+    }
+
+    if (dir === 'h') {
+      e.preventDefault();
+      let resist = 1;
+      if ((current === 0 && dx > 0) || (current === DAYS.length - 1 && dx < 0)) resist = 0.18;
+      const pct = (dx / window.innerWidth) * 100 * resist;
+      slider.style.transition = 'none';
+      slider.style.transform = `translateX(calc(${-current * 100}vw + ${pct}vw))`;
+
+      if (dx < -12) { edgeR.classList.add('show'); edgeL.classList.remove('show'); }
+      else if (dx > 12) { edgeL.classList.add('show'); edgeR.classList.remove('show'); }
+    }
+  }, { passive: false });
+
+  document.addEventListener('touchend', e => {
+    edgeL.classList.remove('show');
+    edgeR.classList.remove('show');
+
+    if (dir === 'h') {
+      const dx = e.changedTouches[0].clientX - tx0;
+      slider.style.transition = 'transform 0.46s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      if (dx < -55 && current < DAYS.length - 1) goTo(current + 1);
+      else if (dx > 55 && current > 0) goTo(current - 1);
+      else goTo(current);
+    }
+    dir = null;
+  }, { passive: true });
+
+  // ─── Modal ──────────────────────────────────────────────────────
+  document.getElementById('infoBtn').addEventListener('click', () => {
+    document.getElementById('modal').classList.add('open');
+  });
+  document.getElementById('modalClose').addEventListener('click', () => {
+    document.getElementById('modal').classList.remove('open');
+  });
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal'))
+      document.getElementById('modal').classList.remove('open');
+  });
+
+  // ─── Keyboard nav (desktop preview) ────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+  });
+
+  // ─── Init ───────────────────────────────────────────────────────
+  goTo(0, false);
+</script>
+</body>
+</html>
