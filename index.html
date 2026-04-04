@@ -387,7 +387,9 @@
       sleep:         "Where to Sleep",
       tips:          "💡 Tips &amp; Reminders",
       bookBtn:       "Search &amp; Book Hotel",
+      hotelSuggestion: "💡 Suggestion only — feel free to pick any hotel you like",
       bookNote:      "Opens Google — compare Booking.com, Hotels.com, direct site",
+      browseHotels:  "Browse All Hotels on Hotels.com",
       flightDay:     "Flight Day",
       flightLoc:     "Heading to Geneva Airport (GVA)",
       modalTitle:    "Emergency Info",
@@ -410,7 +412,9 @@
       sleep:         "Dónde Dormir",
       tips:          "💡 Consejos y Recordatorios",
       bookBtn:       "Buscar y Reservar Hotel",
+      hotelSuggestion: "💡 Solo una sugerencia — siéntanse libres de elegir el hotel que prefieran",
       bookNote:      "Abre Google — compara Booking.com, Hotels.com, sitio directo",
+      browseHotels:  "Ver todos los hoteles en Hotels.com",
       flightDay:     "Día de Vuelo",
       flightLoc:     "Camino al Aeropuerto de Ginebra (GVA)",
       modalTitle:    "Información de Emergencia",
@@ -496,7 +500,7 @@
           { icon: "🍺", name: "Café des Alpes, Wengen", desc: "Local beer garden, hearty rösti, warm and unpretentious" },
           { icon: "🥐", name: "Bäckerei in Lauterbrunnen", desc: "Swiss pastries before the train up — grab provisions" },
         ],
-        hotel: { stars: "★★★", name: "Hotel Silberhorn, Wengen", loc: "Car-free village of Wengen — your base for both Switzerland days", query: "Hotel Silberhorn Wengen booking" },
+        hotel: { stars: "★★★", name: "Hotel Schönegg, Wengen", loc: "Car-free village of Wengen — your base for both Switzerland days", query: "Hotel Schönegg Wengen booking" },
         tips: [
           { icon: "🚗", text: "Rent a car in Annecy for this leg (Days 3-5). Most agencies are near the train station. Return it when you're back." },
           { icon: "🇨🇭", text: "Switzerland uses Swiss Francs (CHF), not euros. Most places accept cards but have CHF cash handy." },
@@ -520,7 +524,7 @@
           { icon: "🫕", name: "Mary's Café, Wengen", desc: "Homemade cake and alpine brunch — legendary among hikers" },
           { icon: "🍷", name: "Hotel Belvedere terrace dinner", desc: "Classic Swiss menu, candlelit, Eiger reflection in the window — romantic and memorable" },
         ],
-        hotel: { stars: "★★★", name: "Hotel Silberhorn, Wengen", loc: "Car-free village of Wengen, Bernese Oberland", query: "Hotel Silberhorn Wengen booking" },
+        hotel: { stars: "★★★", name: "Hotel Schönegg, Wengen", loc: "Car-free village of Wengen, Bernese Oberland", query: "Hotel Schönegg Wengen booking" },
         tips: [
           { icon: "🎫", text: "Book Jungfraujoch online 3-7 days ahead — sells out completely in July. Swiss Pass holders get a discount." },
           { icon: "🧥", text: "It's 0°C at the Jungfraujoch. Pack a heavy jacket, gloves, and sunglasses (snow glare)." },
@@ -696,7 +700,7 @@
           { icon: "🍺", name: "Café des Alpes, Wengen", desc: "Cerveza local, rösti abundante, ambiente cálido y sin pretensiones" },
           { icon: "🥐", name: "Panadería en Lauterbrunnen", desc: "Pasteles suizos y pan fresco antes del tren — aprovisionarse" },
         ],
-        hotel: { stars: "★★★", name: "Hotel Silberhorn, Wengen", loc: "Pueblo sin autos de Wengen — su base para ambos días en Suiza", query: "Hotel Silberhorn Wengen booking" },
+        hotel: { stars: "★★★", name: "Hotel Schönegg, Wengen", loc: "Pueblo sin autos de Wengen — su base para ambos días en Suiza", query: "Hotel Schönegg Wengen booking" },
         tips: [
           { icon: "🚗", text: "Rentar un auto en Annecy para este tramo (Días 3-5). La mayoría de agencias están cerca de la estación de tren." },
           { icon: "🇨🇭", text: "Suiza usa Francos Suizos (CHF), no euros. La mayoría acepta tarjetas pero tener CHF en efectivo." },
@@ -720,7 +724,7 @@
           { icon: "🫕", name: "Mary's Café, Wengen", desc: "Pastel casero y brunch alpino — legendario entre los senderistas" },
           { icon: "🍷", name: "Cena en terraza del Hotel Belvedere", desc: "Menú suizo clásico, velas, el Eiger reflejado en la ventana — romántico e inolvidable" },
         ],
-        hotel: { stars: "★★★", name: "Hotel Silberhorn, Wengen", loc: "Pueblo sin autos de Wengen, Oberland Bernés", query: "Hotel Silberhorn Wengen booking" },
+        hotel: { stars: "★★★", name: "Hotel Schönegg, Wengen", loc: "Pueblo sin autos de Wengen, Oberland Bernés", query: "Hotel Schönegg Wengen booking" },
         tips: [
           { icon: "🎫", text: "Reservar Jungfraujoch en línea con 3-7 días de anticipación — se agota en julio. Descuento con Swiss Pass." },
           { icon: "🧥", text: "Hace 0°C en la cima del Jungfraujoch. Llevar chaqueta gruesa, guantes y gafas de sol." },
@@ -854,10 +858,13 @@
              <div class="hotel-stars">${day.hotel.stars}</div>
              <div class="hotel-name">${day.hotel.name}</div>
              <div class="hotel-loc">📍 ${day.hotel.loc}</div>
+             <p class="book-note" style="margin-bottom:12px;margin-top:0">${ui.hotelSuggestion}</p>
              <a class="book-btn"
                 href="https://www.google.com/search?q=${encodeURIComponent(day.hotel.query)}"
                 target="_blank" rel="noopener noreferrer">${ui.bookBtn}</a>
-             <p class="book-note">${ui.bookNote}</p>
+             <a class="book-btn" style="margin-top:8px;background:var(--glacier,#4a8fa6)"
+                href="https://www.hotels.com/search.do?q=${encodeURIComponent(day.hotel.loc.split('—')[0].trim())}"
+                target="_blank" rel="noopener noreferrer">${ui.browseHotels}</a>
            </div>`
         : `<div class="hotel-card">
              <div class="hotel-name">${ui.flightDay}</div>
