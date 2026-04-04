@@ -431,14 +431,14 @@
   const DAYS = {
     en: [
       {
-        label: "Day 1 · Sun, Jul 20", title: "Arrival", subtitle: "Geneva → Annecy",
-        tagline: "Your Alpine adventure begins ✈️", country: "fr",
+        label: "Day 1 · Sun, Jul 20", title: "Arrival", subtitle: "Paris → Annecy",
+        tagline: "Your Alpine adventure begins 🚄", country: "fr",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Lac_d%27Annecy.jpg/1200px-Lac_d%27Annecy.jpg",
         imageAlt: "Lac d'Annecy panorama",
         activities: [
-          { icon: "✈️", name: "Land at Geneva Airport (GVA)", desc: "Clear customs, pick up your rental car — see tips below" },
-          { icon: "🚗", name: "Drive to Annecy", desc: "~1h 20min on the A40 motorway through French countryside" },
-          { icon: "🏨", name: "Check in & freshen up", desc: "Drop bags, get comfortable, take a breath — you made it" },
+          { icon: "✈️", name: "Fly into Paris CDG or Orly", desc: "From CDG: RER B → Gare du Nord → walk to Gare de Lyon (~1h, €11). From Orly: Orlyval + RER B (~45min). Or take a taxi (~€50)." },
+          { icon: "🚄", name: "TGV from Paris Gare de Lyon to Annecy", desc: "~3.5h direct — scenic run through Burgundy and the Rhône valley into the Alps. Book on SNCF.com in advance." },
+          { icon: "🏨", name: "Check in at your France base", desc: "This is home for all your France days — drop everything, breathe, you made it to the Alps" },
           { icon: "🌅", name: "Evening walk, Vieille Ville", desc: "Wander Annecy's medieval canals as golden hour lights up the water" },
           { icon: "🍷", name: "Dinner in the old town", desc: "No reservations tonight — explore the terraces along Canal du Thiou" },
         ],
@@ -446,11 +446,11 @@
           { icon: "🍽️", name: "Le Belvédère", desc: "Lakeside terrace, classic Savoyard menu — perfect landing dinner" },
           { icon: "🧀", name: "Any boulangerie in Vieille Ville", desc: "Grab a crêpe or sandwich for a relaxed, easy first night" },
         ],
-        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy", query: "Imperial Palace Annecy hotel booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — your base for all France days", query: "Imperial Palace Annecy hotel booking" },
         tips: [
-          { icon: "🚗", text: "France drives on the RIGHT — same as the US. Speed limits in km/h (autoroute: 130 km/h = 80 mph)." },
-          { icon: "💶", text: "Withdraw euros at the Geneva Airport ATM — better rate than currency exchange desks." },
-          { icon: "📶", text: "Buy a French SIM at Geneva Airport or use your carrier's international day pass." },
+          { icon: "🚄", text: "Book TGV tickets on SNCF.com (or Trainline). Prices double closer to the date — buy 2-3 months early." },
+          { icon: "🚕", text: "Paris CDG to Gare de Lyon: RER B to Châtelet-Les Halles, then walk/metro (~1h, €12) or taxi (~€55)." },
+          { icon: "💶", text: "Withdraw euros at a Paris ATM before boarding. French markets and small restaurants prefer cash." },
           { icon: "🕐", text: "France is UTC+2 in July. New York is 6h behind, Phoenix is 9h behind." },
         ]
       },
@@ -471,7 +471,7 @@
           { icon: "🧀", name: "Le Freti", desc: "Best fondue savoyarde in town — generous portions, rustic mountain vibes" },
           { icon: "🍦", name: "Glacier des Alpes", desc: "Artisan ice cream on a cone, wandering the canals — non-negotiable" },
         ],
-        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy", query: "Imperial Palace Annecy hotel booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — su base para todos los días en Francia", query: "Imperial Palace Annecy hotel booking" },
         tips: [
           { icon: "📸", text: "Best photo spot: Pont des Amours — look toward the lake at golden hour." },
           { icon: "🏊", text: "The lake is clean enough to drink from. No jellyfish, very calm — great for kids." },
@@ -496,12 +496,12 @@
           { icon: "🍺", name: "Café des Alpes, Wengen", desc: "Local beer garden, hearty rösti, warm and unpretentious" },
           { icon: "🥐", name: "Bäckerei in Lauterbrunnen", desc: "Swiss pastries before the train up — grab provisions" },
         ],
-        hotel: { stars: "★★★", name: "Hotel Silberhorn, Wengen", loc: "Car-free village of Wengen, Bernese Oberland", query: "Hotel Silberhorn Wengen booking" },
+        hotel: { stars: "★★★", name: "Hotel Silberhorn, Wengen", loc: "Car-free village of Wengen — your base for both Switzerland days", query: "Hotel Silberhorn Wengen booking" },
         tips: [
+          { icon: "🚗", text: "Rent a car in Annecy for this leg (Days 3-5). Most agencies are near the train station. Return it when you're back." },
           { icon: "🇨🇭", text: "Switzerland uses Swiss Francs (CHF), not euros. Most places accept cards but have CHF cash handy." },
           { icon: "🅿️", text: "Wengen is 100% car-free. You MUST park in Lauterbrunnen and take the train. No exceptions." },
           { icon: "🚞", text: "Train tickets: Lauterbrunnen ↔ Wengen are ~CHF 10 each way. Buy at the station kiosk." },
-          { icon: "💦", text: "The valley gets lots of waterfall spray — a light rain jacket is useful even on sunny days." },
         ]
       },
       {
@@ -545,7 +545,7 @@
           { icon: "🥗", name: "Les Terrasses, lakeside", desc: "Salads, tartines, cold rosé with a view — perfect post-travel recovery lunch" },
           { icon: "🍦", name: "Same ice cream spot as Day 2", desc: "Because you deserve it twice." },
         ],
-        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy", query: "Imperial Palace Annecy hotel booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — su base para todos los días en Francia", query: "Imperial Palace Annecy hotel booking" },
         tips: [
           { icon: "📷", text: "Gorges du Fier costs ~€7/person, takes 45 minutes. Great for kids." },
           { icon: "🚲", text: "Bikes rent for ~€15-20/day. The full lake circuit is 30km and mostly flat — doable in 2-3 hours." },
@@ -570,7 +570,7 @@
           { icon: "🫕", name: "La Maison de la Fondue", desc: "Cozy fondue specialist, very Savoyard — perfect for a group" },
           { icon: "🌮", name: "La Buvette du Grand Port", desc: "Casual lakeside snacks — grilled fish, salads, cold rosé in the afternoon sun" },
         ],
-        hotel: { stars: "★★★★", name: "Hôtel Ariana", loc: "Avenue de Marlioz, Aix-les-Bains", query: "Hotel Ariana Aix les Bains booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — your base for all France days", query: "Imperial Palace Annecy hotel booking" },
         tips: [
           { icon: "🛁", text: "Book the thermal spa online — July fills up fast. Morning slots (9-11am) are quietest." },
           { icon: "⛵", text: "Boats to Hautecombe run hourly in summer. The abbey is free — 30-min guided tour on site." },
@@ -595,7 +595,7 @@
           { icon: "🥩", name: "La Calèche", desc: "The fondue & raclette institution in Chamonix. Generous, rustic, always packed." },
           { icon: "☕", name: "Jekyll Café", desc: "Morning coffee before the cable car — best espresso in Chamonix" },
         ],
-        hotel: { stars: "★★★★", name: "Le Morgane Chamonix", loc: "145 avenue de l'Aiguille du Midi, Chamonix", query: "Le Morgane Chamonix hotel booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — your base for all France days", query: "Imperial Palace Annecy hotel booking" },
         tips: [
           { icon: "🎫", text: "Book Aiguille du Midi online 2-3 days ahead. Sells out every summer morning." },
           { icon: "🧥", text: "Bring a heavy jacket — it's 0°C at the summit in July. Gloves too." },
@@ -604,26 +604,26 @@
         ]
       },
       {
-        label: "Day 8 · Sun, Jul 27", title: "Geneva", subtitle: "Annecy → GVA",
-        tagline: "Return the car, soak it all in one last time 🕊️", country: "fr",
+        label: "Day 8 · Sun, Jul 27", title: "Geneva", subtitle: "Annecy → Geneva",
+        tagline: "End of the plan — beginning of whatever's next 🌍", country: "ch",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Geneve_2005_001_Ork.ch.jpg/1200px-Geneve_2005_001_Ork.ch.jpg",
         imageAlt: "Geneva lake and city",
         activities: [
-          { icon: "🌅", name: "One last morning in Annecy", desc: "Early walk on the empty canals before the tourists arrive — magical at 7am" },
-          { icon: "🥐", name: "Goodbye croissant", desc: "There's no better croissant than a French one, eaten standing up on a cobblestone street" },
-          { icon: "🚗", name: "Drive to Geneva", desc: "~1h 20min on A41. Return rental car at GVA Airport 2+ hours before your flight." },
-          { icon: "⛲", name: "Geneva if you have time", desc: "Jet d'Eau fountain, Old Town, Lake Leman promenade — worth 2-3 hours" },
-          { icon: "🍫", name: "Swiss chocolate at the airport", desc: "Läderach, Favarger, Lindt — the GVA duty-free has the best selection. Last gift opportunity." },
+          { icon: "🌅", name: "One last morning in Annecy", desc: "Early walk on the empty canals — the town is magical before the tourists arrive" },
+          { icon: "🥐", name: "Goodbye croissant", desc: "Eaten standing up on a cobblestone street. There is no better croissant in the world." },
+          { icon: "🚗", name: "Drive to Geneva", desc: "~1h 20min on A41. Or take the direct train from Annecy Gare (~2h, no traffic stress)." },
+          { icon: "⛲", name: "Explore Geneva", desc: "Jet d'Eau fountain, Old Town (Vieille Ville), Patek Philippe Museum, Lake Leman promenade" },
+          { icon: "🌍", name: "This is where Adam's plan ends", desc: "Geneva Airport connects to 150+ destinations worldwide — fly home, or keep going. Your call." },
         ],
         food: [
-          { icon: "🥐", name: "Hotel breakfast", desc: "Don't skip — fuel up before the drive. Grab extra pastries to go." },
-          { icon: "☕", name: "Last café crème", desc: "Ask: 'un café crème s'il vous plaît'. Drink it slowly." },
+          { icon: "🍽️", name: "Café du Soleil, Geneva", desc: "Classic Geneva institution — fondue and local wine in the heart of the old town" },
+          { icon: "🍫", name: "Läderach chocolatier", desc: "The best Swiss chocolate money can buy. Stock up before the flight, whatever the destination." },
         ],
-        hotel: { stars: "", name: "", loc: "", query: "" },
+        hotel: { stars: "★★★★★", name: "Hôtel d'Angleterre Geneva", loc: "Quai du Mont-Blanc 17, Geneva — lakeside, 10min from airport train", query: "Hotel d'Angleterre Geneva booking" },
         tips: [
-          { icon: "⏰", text: "Geneva Airport is busy on Sundays. Arrive 2.5 hours before international departure." },
-          { icon: "🧀", text: "Hard aged cheeses (beaufort, comté) are allowed in checked bags to the US." },
-          { icon: "🍷", text: "Wine: max 5L per person in checked luggage. Ask at duty-free for bubble-wrap bags." },
+          { icon: "🌍", text: "Geneva Airport (GVA) flies to 150+ destinations — USA, Asia, Middle East, Africa. One of Europe's best-connected hubs." },
+          { icon: "🚂", text: "Direct train: Geneva Cornavin Airport ↔ city centre is 7 minutes. Annecy → Geneva Cornavin is ~2h direct." },
+          { icon: "🇨🇭", text: "Geneva uses CHF. Card payments are widely accepted everywhere." },
           { icon: "💚", text: "À bientôt, Savoie — you'll be back. They always come back." },
         ]
       },
@@ -631,13 +631,13 @@
 
     es: [
       {
-        label: "Día 1 · Dom, 20 Jul", title: "Llegada", subtitle: "Ginebra → Annecy",
-        tagline: "Tu aventura alpina comienza ✈️", country: "fr",
+        label: "Día 1 · Dom, 20 Jul", title: "Llegada", subtitle: "París → Annecy",
+        tagline: "Tu aventura alpina comienza 🚄", country: "fr",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Lac_d%27Annecy.jpg/1200px-Lac_d%27Annecy.jpg",
         imageAlt: "Panorama del Lac d'Annecy",
         activities: [
-          { icon: "✈️", name: "Aterrizar en el Aeropuerto de Ginebra (GVA)", desc: "Pasar aduana y recoger el auto rentado — ver consejos abajo" },
-          { icon: "🚗", name: "Manejar a Annecy", desc: "~1h 20min por la autopista A40 a través del campo francés" },
+          { icon: "✈️", name: "Aterrizar en París CDG u Orly", desc: "Desde CDG: RER B → Gare du Nord → a Gare de Lyon (~1h, €12). Desde Orly: Orlyval + RER B. O taxi (~€55)." },
+          { icon: "🚄", name: "TGV desde París Gare de Lyon a Annecy", desc: "~3.5h directo — paisaje por Borgoña y el valle del Ródano hasta los Alpes. Reservar en SNCF.com con anticipación." },
           { icon: "🏨", name: "Check-in y descansar", desc: "Dejar las maletas, ponerse cómodo — ya llegaron" },
           { icon: "🌅", name: "Paseo nocturno por la Vieille Ville", desc: "Caminar por los canales medievales de Annecy durante la hora dorada" },
           { icon: "🍷", name: "Cena en el casco antiguo", desc: "Sin reservaciones esta noche — explorar las terrazas del Canal du Thiou" },
@@ -646,11 +646,11 @@
           { icon: "🍽️", name: "Le Belvédère", desc: "Terraza junto al lago, menú saboyano clásico — cena perfecta de llegada" },
           { icon: "🧀", name: "Cualquier boulangerie en la Vieille Ville", desc: "Una crêpe o sándwich para una primera noche relajada" },
         ],
-        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy", query: "Imperial Palace Annecy hotel booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — su base para todos los días en Francia", query: "Imperial Palace Annecy hotel booking" },
         tips: [
-          { icon: "🚗", text: "Francia maneja por la DERECHA — igual que en EE.UU. Límites en km/h (autopista: 130 km/h = 80 mph)." },
-          { icon: "💶", text: "Retirar euros en el cajero del Aeropuerto de Ginebra — mejor tasa que en casas de cambio." },
-          { icon: "📶", text: "Comprar una SIM francesa en el aeropuerto o usar el plan internacional de su operadora." },
+          { icon: "🚄", text: "Reservar boletos TGV en SNCF.com (o Trainline). Los precios suben rápido — comprar con 2-3 meses de anticipación." },
+          { icon: "🚕", text: "CDG a Gare de Lyon: RER B a Châtelet-Les Halles luego metro/caminata (~1h, €12) o taxi (~€55)." },
+          { icon: "💶", text: "Retirar euros en un cajero de París antes de abordar. Los mercados franceses prefieren efectivo." },
           { icon: "🕐", text: "Francia está a UTC+2 en julio. Nueva York tiene 6h de diferencia, Phoenix 9h." },
         ]
       },
@@ -671,7 +671,7 @@
           { icon: "🧀", name: "Le Freti", desc: "La mejor fondue savoyarde de la ciudad — porciones generosas, ambiente rústico de montaña" },
           { icon: "🍦", name: "Glacier des Alpes", desc: "Helado artesanal en cono paseando por los canales — obligatorio" },
         ],
-        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy", query: "Imperial Palace Annecy hotel booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — su base para todos los días en Francia", query: "Imperial Palace Annecy hotel booking" },
         tips: [
           { icon: "📸", text: "Mejor foto: Pont des Amours — mirar hacia el lago a la hora dorada." },
           { icon: "🏊", text: "El lago es tan limpio que podrías beber el agua. Sin medusas, muy tranquilo — perfecto para niños." },
@@ -696,12 +696,12 @@
           { icon: "🍺", name: "Café des Alpes, Wengen", desc: "Cerveza local, rösti abundante, ambiente cálido y sin pretensiones" },
           { icon: "🥐", name: "Panadería en Lauterbrunnen", desc: "Pasteles suizos y pan fresco antes del tren — aprovisionarse" },
         ],
-        hotel: { stars: "★★★", name: "Hotel Silberhorn, Wengen", loc: "Pueblo sin autos de Wengen, Oberland Bernés", query: "Hotel Silberhorn Wengen booking" },
+        hotel: { stars: "★★★", name: "Hotel Silberhorn, Wengen", loc: "Pueblo sin autos de Wengen — su base para ambos días en Suiza", query: "Hotel Silberhorn Wengen booking" },
         tips: [
+          { icon: "🚗", text: "Rentar un auto en Annecy para este tramo (Días 3-5). La mayoría de agencias están cerca de la estación de tren." },
           { icon: "🇨🇭", text: "Suiza usa Francos Suizos (CHF), no euros. La mayoría acepta tarjetas pero tener CHF en efectivo." },
           { icon: "🅿️", text: "Wengen es 100% sin autos. HAY que estacionar en Lauterbrunnen y tomar el tren. Sin excepciones." },
           { icon: "🚞", text: "Boletos de tren: Lauterbrunnen ↔ Wengen son ~CHF 10 por trayecto. Comprar en la taquilla." },
-          { icon: "💦", text: "El valle tiene mucha neblina de cascadas — una chaqueta ligera impermeable es útil hasta en días soleados." },
         ]
       },
       {
@@ -745,7 +745,7 @@
           { icon: "🥗", name: "Les Terrasses, junto al lago", desc: "Ensaladas, tartines, rosado frío con vista — almuerzo perfecto de recuperación" },
           { icon: "🍦", name: "El mismo puesto de helados del Día 2", desc: "Porque se lo merecen dos veces." },
         ],
-        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy", query: "Imperial Palace Annecy hotel booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — su base para todos los días en Francia", query: "Imperial Palace Annecy hotel booking" },
         tips: [
           { icon: "📷", text: "Las Gorges du Fier cuestan ~€7 por persona y toman 45 minutos. Genial para niños." },
           { icon: "🚲", text: "Bicicletas: ~€15-20/día. El circuito completo del lago es de 30km y mayormente plano — 2-3 horas." },
@@ -770,7 +770,7 @@
           { icon: "🫕", name: "La Maison de la Fondue", desc: "Especialista en fondue acogedor, muy saboyardo — perfecto para un grupo" },
           { icon: "🌮", name: "La Buvette du Grand Port", desc: "Bar junto al lago — pescado a la parrilla, ensaladas, rosado frío bajo el sol de la tarde" },
         ],
-        hotel: { stars: "★★★★", name: "Hôtel Ariana", loc: "Avenue de Marlioz, Aix-les-Bains", query: "Hotel Ariana Aix les Bains booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — your base for all France days", query: "Imperial Palace Annecy hotel booking" },
         tips: [
           { icon: "🛁", text: "Reservar el spa en línea — julio se llena rápido. Los turnos de mañana (9-11am) son los más tranquilos." },
           { icon: "⛵", text: "Barcos a Hautecombe cada hora en verano. La abadía es gratis — tour guiado de 30 min disponible." },
@@ -795,7 +795,7 @@
           { icon: "🥩", name: "La Calèche", desc: "La institución de fondue y raclette en Chamonix. Generoso, rústico, siempre lleno." },
           { icon: "☕", name: "Jekyll Café", desc: "Café matutino antes del teleférico — el mejor espresso de Chamonix, favorito de los escaladores" },
         ],
-        hotel: { stars: "★★★★", name: "Le Morgane Chamonix", loc: "145 avenue de l'Aiguille du Midi, Chamonix", query: "Le Morgane Chamonix hotel booking" },
+        hotel: { stars: "★★★★★", name: "Imperial Palace Annecy", loc: "3 avenue d'Albigny, Annecy — your base for all France days", query: "Imperial Palace Annecy hotel booking" },
         tips: [
           { icon: "🎫", text: "Reservar el teleférico Aiguille du Midi en línea 2-3 días antes. Se agota todas las mañanas de verano." },
           { icon: "🧥", text: "Llevar chaqueta gruesa — hace 0°C en la cima en julio. Guantes también." },
@@ -804,26 +804,26 @@
         ]
       },
       {
-        label: "Día 8 · Dom, 27 Jul", title: "Ginebra", subtitle: "Annecy → GVA",
-        tagline: "Devolver el auto, disfrutar el último momento 🕊️", country: "fr",
+        label: "Día 8 · Dom, 27 Jul", title: "Ginebra", subtitle: "Annecy → Ginebra",
+        tagline: "Fin del plan — comienzo de lo que sigue 🌍", country: "ch",
         image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Geneve_2005_001_Ork.ch.jpg/1200px-Geneve_2005_001_Ork.ch.jpg",
         imageAlt: "Lago de Ginebra y la ciudad",
         activities: [
           { icon: "🌅", name: "Una última mañana en Annecy", desc: "Paseo matutino por los canales vacíos antes de que lleguen los turistas — mágico a las 7am" },
           { icon: "🥐", name: "Croissant de despedida", desc: "No hay mejor croissant que uno francés, comido de pie en una calle adoquinada" },
-          { icon: "🚗", name: "Manejar a Ginebra", desc: "~1h 20min por la A41. Devolver el auto rentado en el Aeropuerto GVA 2+ horas antes del vuelo." },
-          { icon: "⛲", name: "Ginebra si hay tiempo", desc: "Jet d'Eau (la famosa fuente), Casco Antiguo, paseo por el Lago Lemán — vale 2-3 horas" },
-          { icon: "🍫", name: "Chocolate suizo en el aeropuerto", desc: "Läderach, Favarger, Lindt — el duty-free de GVA tiene la mejor selección. Última oportunidad de regalos." },
+          { icon: "🚗", name: "Manejar a Ginebra", desc: "~1h 20min por la A41. O tomar el tren directo desde Annecy (~2h, sin estrés de tráfico)." },
+          { icon: "⛲", name: "Explorar Ginebra", desc: "Jet d'Eau, Casco Antiguo (Vieille Ville), Museo Patek Philippe, paseo por el Lago Lemán" },
+          { icon: "🌍", name: "Aquí termina el plan de Adam", desc: "El Aeropuerto de Ginebra conecta con 150+ destinos — volar a casa o seguir viajando. Su decisión." },
         ],
         food: [
-          { icon: "🥐", name: "Desayuno en el hotel", desc: "No saltárselo — cargar energía antes del manejo. Llevar pasteles de más para el camino." },
-          { icon: "☕", name: "Último café crème", desc: "Pedir: 'un café crème s'il vous plaît'. Beberlo despacio." },
+          { icon: "🍽️", name: "Café du Soleil, Ginebra", desc: "Institución clásica de Ginebra — fondue y vino local en el corazón del casco antiguo" },
+          { icon: "🍫", name: "Chocolatería Läderach", desc: "El mejor chocolate suizo. Abastecerse antes del vuelo, a donde sea que vayan." },
         ],
-        hotel: { stars: "", name: "", loc: "", query: "" },
+        hotel: { stars: "★★★★★", name: "Hôtel d'Angleterre Ginebra", loc: "Quai du Mont-Blanc 17, Ginebra — a 10min del tren al aeropuerto", query: "Hotel d'Angleterre Geneva booking" },
         tips: [
-          { icon: "⏰", text: "El Aeropuerto de Ginebra está concurrido los domingos. Llegar 2.5 horas antes de la salida internacional." },
-          { icon: "🧀", text: "Los quesos curados (beaufort, comté) están permitidos en el equipaje documentado hacia EE.UU." },
-          { icon: "🍷", text: "Vino: máximo 5L por persona en equipaje documentado. Pedir bolsas de burbujas en el duty-free." },
+          { icon: "🌍", text: "El Aeropuerto de Ginebra (GVA) vuela a 150+ destinos — EE.UU., Asia, Medio Oriente, África. Uno de los mejores hubs de Europa." },
+          { icon: "🚂", text: "Tren directo: Aeropuerto Ginebra ↔ centro de la ciudad son 7 minutos. Annecy → Ginebra Cornavin es ~2h directo." },
+          { icon: "🇨🇭", text: "Ginebra usa CHF. Se aceptan pagos con tarjeta en todas partes." },
           { icon: "💚", text: "À bientôt, Savoie — volverán. Siempre regresan." },
         ]
       },
